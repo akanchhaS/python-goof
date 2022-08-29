@@ -1,0 +1,48 @@
+name: "Python Snyk Sarif"
+
+# Set on manual run only, potentially add as cron job later
+on:
+  workflow_dispatch:
+  # Set to run at 12:30 AM UTC
+  schedule:
+    - cron: '30 0 * * *'
+
+jobs:
+  security:
+    name: Snyk vulnerabilities workflow
+    # Match our standard worker build process
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      # Added write to fix potential issue with creating sarif file
+      actions: read
+
+    strategy:
+      matrix:
+        language: [ 'python' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        # Checkout main repo
+
+      - name: Run Snyk to check for Python vulnerabilities
+        uses: snyk/actions/python@master
+        # Run scanner on resulting repo
+        if: matrix.language == 'python'
+        # Check if language is Python
+        continue-on-error: true
+        # Needs to be set so that SARIF upload gets called on positive findings
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args:
+            --all-projects
+            --sarif-file-output:snyk.sarif
+          # Run with sarif outputting to snyk.sarif file
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
+          # Use Sarif functionality to build sarif file and upload it
