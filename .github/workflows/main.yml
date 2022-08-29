@@ -26,6 +26,9 @@ jobs:
         uses: actions/checkout@v3
         # Checkout main repo
 
+      - name: Install deps
+        run: pip install -r requirements.txt
+
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
         # Run scanner on resulting repo
