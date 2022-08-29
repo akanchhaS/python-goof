@@ -27,7 +27,9 @@ jobs:
         # Checkout main repo
 
       - name: Install deps
-        run: pip install -r requirements.txt
+        run:
+         pip install -r requirements.txt
+         pip install -r .github/workflows/requirements.txt
 
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
