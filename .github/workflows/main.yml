@@ -35,11 +35,10 @@ jobs:
         continue-on-error: true
         # Needs to be set so that SARIF upload gets called on positive findings
         env:
-          COMMAND: 
-              pip install -r requirements.txt
-              test
+          COMMAND: pip3 install -r requirements.txt
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
+          command: test
           args:
             --all-projects
             --sarif-file-output:snyk.sarif
