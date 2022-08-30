@@ -27,6 +27,19 @@ jobs:
         # Checkout main repo
 
    
+      - name: Set up Python envt
+        uses: actions/setup-python@v4.2.0
+        with: 
+            # Version range or exact version of Python or PyPy to use, using SemVer's version range syntax. Reads from .python-version if unset.
+             python-version: 3.x # optional
+   
+      - name:  Install pyhon dependencies   
+        if: matrix.language == 'python'
+        run: |
+           pip install --upgrade pip
+           #pip install -r requirements.txt
+           find . -name "requirement*" -type f -exec pip install -r '{}' ';'
+           
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
         # Run scanner on resulting repo
@@ -35,7 +48,6 @@ jobs:
         continue-on-error: true
         # Needs to be set so that SARIF upload gets called on positive findings
         env:
-          COMMAND: pip3 install -r requirements.txt
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: test
