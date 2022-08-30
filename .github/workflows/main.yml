@@ -38,7 +38,7 @@ jobs:
         run: |
           # pip install --upgrade pip
            #pip install -r requirements.txt
-           find . -name "*.requirements.txt" -type f -exec pip install -r '{}' ';'
+           find . -name "*.requirements.txt" 
            
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
