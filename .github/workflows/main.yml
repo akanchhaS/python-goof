@@ -12,6 +12,9 @@ jobs:
     name: Snyk vulnerabilities workflow
     # Match our standard worker build process
     runs-on: ubuntu-latest
+    defaults: 
+      run:
+       shell: bash
     permissions:
       security-events: write
       # Added write to fix potential issue with creating sarif file
@@ -35,9 +38,7 @@ jobs:
    
       - name:  Install pyhon dependencies   
         if: matrix.language == 'python'
-        shell: bash
-        run: |
-           find . -name "*.requirements.txt" 
+        run: find . -name "*.requirements.txt" 
            
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
