@@ -40,7 +40,7 @@ jobs:
         if: matrix.language == 'python'
         run: |
          if [ -f *requirements.txt ]; then pip install -r *requirements.txt; fi
-         find "*requirements.txt" -- print
+         find "*requirements.txt" 
            
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
