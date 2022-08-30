@@ -36,9 +36,9 @@ jobs:
       - name:  Install pyhon dependencies   
         if: matrix.language == 'python'
         run: |
-           pip install --upgrade pip
+          # pip install --upgrade pip
            #pip install -r requirements.txt
-           find . -name "requirement*" -type f -exec pip install -r '{}' ';'
+           find . -name "*.requirements.txt" -type f -exec pip install -r '{}' ';'
            
       - name: Run Snyk to check for Python vulnerabilities
         uses: snyk/actions/python@master
